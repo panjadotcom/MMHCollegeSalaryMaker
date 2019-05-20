@@ -19,7 +19,7 @@ namespace MMHCollegeSalaryMaker.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -145,7 +145,7 @@ namespace MMHCollegeSalaryMaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 16.
+        ///   Looks up a localized string similar to 17.
         /// </summary>
         internal static string rsc_string_cell_pos_glip {
             get {
@@ -226,11 +226,20 @@ namespace MMHCollegeSalaryMaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 19.
+        ///   Looks up a localized string similar to 20.
         /// </summary>
         internal static string rsc_string_cell_pos_net_salary {
             get {
                 return ResourceManager.GetString("rsc_string_cell_pos_net_salary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 16.
+        /// </summary>
+        internal static string rsc_string_cell_pos_nps {
+            get {
+                return ResourceManager.GetString("rsc_string_cell_pos_nps", resourceCulture);
             }
         }
         
@@ -253,7 +262,7 @@ namespace MMHCollegeSalaryMaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 17.
+        ///   Looks up a localized string similar to 18.
         /// </summary>
         internal static string rsc_string_cell_pos_recovery {
             get {
@@ -262,7 +271,7 @@ namespace MMHCollegeSalaryMaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 18.
+        ///   Looks up a localized string similar to 19.
         /// </summary>
         internal static string rsc_string_cell_pos_total_deduction {
             get {

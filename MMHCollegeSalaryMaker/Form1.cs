@@ -12,6 +12,8 @@ using System.IO;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
+//using DocumentFormat.OpenXml;
+//using SpreadsheetLight;
 
 namespace MMHCollegeSalaryMaker
 {
@@ -40,6 +42,7 @@ namespace MMHCollegeSalaryMaker
         int CELL_POS_RECOVERY;
         int CELL_POS_TOTAL_DEDUCT;
         int CELL_POS_NET_SALARY;
+        int CELL_POS_NPS;
 
         int indx;
         string name;
@@ -60,6 +63,7 @@ namespace MMHCollegeSalaryMaker
         int recovery;
         int total_deduct;
         int net_salary;
+        int nps;
         string gender;
         string department;
         string isPermanent;
@@ -88,12 +92,13 @@ namespace MMHCollegeSalaryMaker
             CELL_POS_GROSS_SALARY = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_gross_salary);//12;
             CELL_POS_PF_GPF = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_gpf);//14;
             CELL_POS_GPF_LOAN = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_gpf_loan);//15;
-            CELL_POS_GLIP = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_glip);//16;
+            CELL_POS_GLIP = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_glip);//17;
             CELL_POS_INC_TAX = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_income_tax);//13;
-            CELL_POS_BANK_LOAN = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_bank_loan);//17;
-            CELL_POS_RECOVERY = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_recovery);//17;
-            CELL_POS_TOTAL_DEDUCT = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_total_deduction);//18;
-            CELL_POS_NET_SALARY = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_net_salary);//19;
+            CELL_POS_BANK_LOAN = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_bank_loan);//25;
+            CELL_POS_RECOVERY = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_recovery);//18;
+            CELL_POS_TOTAL_DEDUCT = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_total_deduction);//19;
+            CELL_POS_NET_SALARY = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_net_salary);//20;
+            CELL_POS_NPS = Convert.ToInt32(MMHCollegeSalaryMaker.Properties.Resources.rsc_string_cell_pos_nps);//16;
 
             today = DateTime.Today;
             this.num_up_dwn_year.Value = today.Year;
@@ -470,6 +475,19 @@ namespace MMHCollegeSalaryMaker
                 {
                     net_salary = 0;
                 }
+                value = (xlRange.Cells[rCnt, CELL_POS_NPS] as Excel.Range).Value2;
+                if (value == null)
+                {
+                    nps = 0;
+                }
+                else if (value.GetType().ToString() == prgsbrCntr.GetType().ToString())
+                {
+                    nps = Convert.ToInt32(value);
+                }
+                else
+                {
+                    nps = 0;
+                }
                 //gender = this.cmb_box_gender.SelectedItem.ToString();
                 //isPermanent = this.cmb_box_permanent.SelectedItem.ToString();
                 gender = this.cmb_box_gender.Text;
@@ -490,7 +508,7 @@ namespace MMHCollegeSalaryMaker
                 XRect rect = new XRect(40, 200, 500, 40);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Center;
-                tf.DrawString(fileContent, headerFont, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, headerFont, XBrushes.Black, rect, XStringFormats.TopLeft);
                 fileContent = "        This is to certify that " + name + ",";
                 fileContent = fileContent +  " " + desig + ", dept. of " + department + ",";
                 if ( gender.Equals("MALE",StringComparison.OrdinalIgnoreCase) )
@@ -515,7 +533,7 @@ namespace MMHCollegeSalaryMaker
                 rect = new XRect(90, 240, 400, 40);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Justify;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 
                 //fileContent = "Month : " + month + "\n\n";
                 /*fileContent = " EARNINGS\n";
@@ -530,7 +548,7 @@ namespace MMHCollegeSalaryMaker
                 rect = new XRect(100, 310, 100, 120);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 fileContent = "\n : " + basic_pay.ToString()
                     + "\n : " + grade_pay.ToString()
@@ -542,7 +560,7 @@ namespace MMHCollegeSalaryMaker
                 rect = new XRect(180, 310, 100, 120);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 ///*fileContent = "-------------------------------------------\n";*/
                 //fileContent = "\nGross Salary    : " + gross_salary.ToString() + "\n";
@@ -550,10 +568,10 @@ namespace MMHCollegeSalaryMaker
                 //rect = new XRect(100, 420, 250, 40);
                 //gfx.DrawRectangle(XBrushes.White, rect);
                 //tf.Alignment = XParagraphAlignment.Left;
-                //tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                //tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 
                 fileContent = "Deductions\n"
-                    + "\n"
+                    + "nps\n"
                     + "PF/GPF\n"
                     + "GPF Loan\n"
                     + "GLIP\n" 
@@ -563,9 +581,9 @@ namespace MMHCollegeSalaryMaker
                 rect = new XRect(330, 310, 100, 90);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
 
-                fileContent = "\n"
+                fileContent = "\n : " + nps.ToString()
                     + "\n : " + pf_gpf.ToString()
                     + "\n : " + gpf_loan.ToString()
                     + "\n : " + glip.ToString()
@@ -575,7 +593,7 @@ namespace MMHCollegeSalaryMaker
                 rect = new XRect(410, 310, 100, 120);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 ////fileContent = "-------------------------------------------\n";
                 //fileContent = "\n Total Deduction : " + total_deduct.ToString() + "\n";
@@ -583,7 +601,7 @@ namespace MMHCollegeSalaryMaker
                 //rect = new XRect(350, 420, 250, 40);
                 //gfx.DrawRectangle(XBrushes.White, rect);
                 //tf.Alignment = XParagraphAlignment.Left;
-                //tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                //tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 /*if (gender.Equals("MALE", StringComparison.OrdinalIgnoreCase))
                 {
                     fileContent = "Note : He received Rs  " + net_salary.ToString() + " after deduction, ";
@@ -601,27 +619,27 @@ namespace MMHCollegeSalaryMaker
                 rect = new XRect(90, 500, 400, 40);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Center;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 fileContent = "Date " + date_str + "\n\nAmount in Rs.   ";
                 rect = new XRect(410/*40*/, 140/*610*/, 100, 20);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Right;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 fileContent = "Principal";
                 rect = new XRect(450, 610, 100, 20);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Right;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 fileContent = "Accountant";
                 rect = new XRect(80, 610, 100, 20);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
                 fileContent = "Office\nSuperintendent";
                 rect = new XRect(250, 600, 100, 20);
                 gfx.DrawRectangle(XBrushes.White, rect);
                 tf.Alignment = XParagraphAlignment.Center;
-                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+                tf.DrawString(fileContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
 
 
                 filepath = this.btn_dest_path.Text + indx.ToString() + "_" + name + "_" + this.cmb_box_month.SelectedItem.ToString() + "_SalarySlip" + ".pdf";
